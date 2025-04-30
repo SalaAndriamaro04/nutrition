@@ -3,17 +3,17 @@ library(readxl)
 library(multcompView)
 library(writexl)
 
-# Charger les données
-data <- read_excel("~/nutrition/Macronutriments.xlsx")
-"View(data)"
+# Charger les données | nutrition path change en cas de changement de dossier
+data <- read_excel("~/nutrition/src_excel/Macronutriments.xlsx")
+#View(data)
 # Calcul de l'écart-type pour chaque paramètre et chaque variété
-calculate_sd <- function(essai1, essai2) {
-  return(sd(c(essai1, essai2)))
+calculate_sd <- function(essai1, essai2, essai3) {
+  return(sd(c(essai1, essai2, essai3)))
 }
 # Appliquer la fonction sur chaque lentille et ajouter une colonne d'écart-type pour chaque paramètre
-data$SD_K067 <- mapply(calculate_sd, data$Essai1_K067_Lentille_verte, data$Essai2_K067_Lentille_verte);
-data$SD_K068 <- mapply(calculate_sd, data$Essai1_K068_Lentille_corail, data$Essai2_K068_Lentille_corail);
-data$SD_K069 <- mapply(calculate_sd, data$Essai1_K069_Lentille_noire, data$Essai2_K069_Lentille_noire);
+data$SD_K067 <- mapply(calculate_sd, data$Essai1_K067_Lentille_verte, data$Essai2_K067_Lentille_verte, data$Essai3_K067_Lentille_verte);
+data$SD_K068 <- mapply(calculate_sd, data$Essai1_K068_Lentille_corail, data$Essai2_K068_Lentille_corail, data$Essai3_K068_Lentille_corail);
+data$SD_K069 <- mapply(calculate_sd, data$Essai1_K069_Lentille_noire, data$Essai2_K069_Lentille_noire, data$Essai3_K069_Lentille_noire);
 
 # Afficher le tableau avec moyenne et écart-type
 data$Lentille_verte <- paste(round(data$Moyenne_K067_Lentille_verte,2), "±",round(data$SD_K067,2))
@@ -21,13 +21,13 @@ data$Lentille_corail <- paste(round(data$Moyenne_K068_Lentille_corail,2), "±", 
 data$Lentille_noire <- paste(round(data$Moyenne_K069_Lentille_noire,2), "±",round(data$SD_K069,2))
 
 # Extraction des données et calculs pour chaque paramètre
-Variete <- factor(rep(c("K067", "K068", "K069"), each = 2))
+Variete <- factor(rep(c("K067", "K068", "K069"), each = 3))
 
 ###################################
 # Protéines
-Proteines <- c(data$Essai1_K067_Lentille_verte[1], data$Essai2_K067_Lentille_verte[1],
-               data$Essai1_K068_Lentille_corail[1], data$Essai2_K068_Lentille_corail[1],
-               data$Essai1_K069_Lentille_noire[1], data$Essai2_K069_Lentille_noire[1])
+Proteines <- c(data$Essai1_K067_Lentille_verte[1], data$Essai2_K067_Lentille_verte[1], data$Essai3_K067_Lentille_verte[1],
+               data$Essai1_K068_Lentille_corail[1], data$Essai2_K068_Lentille_corail[1], data$Essai3_K068_Lentille_corail[1],
+               data$Essai1_K069_Lentille_noire[1], data$Essai2_K069_Lentille_noire[1], data$Essai3_K069_Lentille_noire[1])
 
 dataaov <- data.frame(Variete, Proteines)
 
@@ -48,9 +48,9 @@ print(letters_proteines)
 # Répéter le même processus pour les Lipides et les Cendres
 
 # Lipides
-Lipides <- c(data$Essai1_K067_Lentille_verte[2], data$Essai2_K067_Lentille_verte[2],
-             data$Essai1_K068_Lentille_corail[2], data$Essai2_K068_Lentille_corail[2],
-             data$Essai1_K069_Lentille_noire[2], data$Essai2_K069_Lentille_noire[2])
+Lipides <- c(data$Essai1_K067_Lentille_verte[2], data$Essai2_K067_Lentille_verte[2], data$Essai3_K067_Lentille_verte[2],
+             data$Essai1_K068_Lentille_corail[2], data$Essai2_K068_Lentille_corail[2], data$Essai3_K068_Lentille_corail[2],
+             data$Essai1_K069_Lentille_noire[2], data$Essai2_K069_Lentille_noire[2], data$Essai3_K069_Lentille_noire[2])
 
 dataaov <- data.frame(Variete, Lipides)
 
@@ -69,9 +69,9 @@ print(letters_lipides)
 
 ###################################
 # Cendres
-Cendres <- c(data$Essai1_K067_Lentille_verte[3], data$Essai2_K067_Lentille_verte[3],
-             data$Essai1_K068_Lentille_corail[3], data$Essai2_K068_Lentille_corail[3],
-             data$Essai1_K069_Lentille_noire[3], data$Essai2_K069_Lentille_noire[3])
+Cendres <- c(data$Essai1_K067_Lentille_verte[3], data$Essai2_K067_Lentille_verte[3], data$Essai3_K067_Lentille_verte[3],
+             data$Essai1_K068_Lentille_corail[3], data$Essai2_K068_Lentille_corail[3], data$Essai3_K068_Lentille_corail[3],
+             data$Essai1_K069_Lentille_noire[3], data$Essai2_K069_Lentille_noire[3], data$Essai3_K069_Lentille_noire[3])
 
 dataaov <- data.frame(Variete, Cendres)
 
@@ -89,10 +89,10 @@ letters_cendres <- multcompLetters(tukey_pvalues, compare = "<", threshold = 0.0
 print(letters_cendres)
 
 ###################################
-Humidite <- c(data$Essai1_K067_Lentille_verte[4], data$Essai2_K067_Lentille_verte[4],
-              data$Essai1_K068_Lentille_corail[4], data$Essai2_K068_Lentille_corail[4],
-              data$Essai1_K069_Lentille_noire[4], data$Essai2_K069_Lentille_noire[4]
-)
+Humidite <- c(data$Essai1_K067_Lentille_verte[4], data$Essai2_K067_Lentille_verte[4], data$Essai3_K067_Lentille_verte[4],
+              data$Essai1_K068_Lentille_corail[4], data$Essai2_K068_Lentille_corail[4], data$Essai3_K068_Lentille_corail[4],
+              data$Essai1_K069_Lentille_noire[4], data$Essai2_K069_Lentille_noire[4], data$Essai3_K069_Lentille_noire[4])
+
 dataaov <- data.frame(Variete, Humidite)
 
 # ANOVA
@@ -108,10 +108,9 @@ letters_humidite <- multcompLetters(tukey_pvalues, compare = "<", threshold = 0.
 print(letters_humidite)
 
 ################################
-Glucides <- c(data$Essai1_K067_Lentille_verte[5], data$Essai2_K067_Lentille_verte[5],
-              data$Essai1_K068_Lentille_corail[5], data$Essai2_K068_Lentille_corail[5],
-              data$Essai1_K069_Lentille_noire[5], data$Essai2_K069_Lentille_noire[5]
-)
+Glucides <- c(data$Essai1_K067_Lentille_verte[5], data$Essai2_K067_Lentille_verte[5], data$Essai3_K067_Lentille_verte[5],
+              data$Essai1_K068_Lentille_corail[5], data$Essai2_K068_Lentille_corail[5], data$Essai3_K068_Lentille_corail[5],
+              data$Essai1_K069_Lentille_noire[5], data$Essai2_K069_Lentille_noire[5], data$Essai3_K069_Lentille_noire[5])
 
 dataaov <- data.frame(Variete, Glucides)
 
@@ -129,10 +128,9 @@ letters_glucides <- multcompLetters(tukey_pvalues, compare = "<", threshold = 0.
 print(letters_glucides)
 
 ################################
-Valeurs_energetique <- c(data$Essai1_K067_Lentille_verte[6], data$Essai2_K067_Lentille_verte[6],
-                         data$Essai1_K068_Lentille_corail[6], data$Essai2_K068_Lentille_corail[6],
-                         data$Essai1_K069_Lentille_noire[6], data$Essai2_K069_Lentille_noire[6]
-)
+Valeurs_energetique <- c(data$Essai1_K067_Lentille_verte[6], data$Essai2_K067_Lentille_verte[6], data$Essai3_K067_Lentille_verte[6],
+                         data$Essai1_K068_Lentille_corail[6], data$Essai2_K068_Lentille_corail[6], data$Essai3_K068_Lentille_corail[6],
+                         data$Essai1_K069_Lentille_noire[6], data$Essai2_K069_Lentille_noire[6], data$Essai3_K069_Lentille_noire[6])
 
 dataaov <- data.frame(Variete, Valeurs_energetique)
 
@@ -185,4 +183,4 @@ data_final <- data[, c("PARAMETRES","Lentille_verte", "Lentille_corail", "Lentil
 
 View(data_final)
 # Exporter le tableau des résultats
-#write_xlsx(data_final, "resultats_macronutriments.xlsx")
+#write_xlsx(data_final, "~/nutrition/resultat/resultats_macronutriments.xlsx")
