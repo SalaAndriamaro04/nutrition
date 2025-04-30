@@ -4,9 +4,9 @@ library(ggplot2)
 library(tidyr)
 library(dplyr)
 
-# Charger les données
-data <- read_excel("~/Essai/Phytochimique.xlsx")
-
+# Charger les données | nutrition path change en cas de changement de dossier
+data <- read_excel("~/nutrition/src_excel/ScreeningPhytochimique.xlsx")
+#View(data)
 # Transformation en format long
 data_long <- data %>%
   select(PARAMETRES, contains("Essai")) %>%  # Sélectionner les colonnes pertinentes

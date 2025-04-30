@@ -4,8 +4,8 @@ library(multcompView)
 library(writexl)
 
 # Charger les données
-data <- read_excel("~/Essai/Macronutriments.xlsx")
-
+data <- read_excel("~/nutrition/Macronutriments.xlsx")
+"View(data)"
 # Calcul de l'écart-type pour chaque paramètre et chaque variété
 calculate_sd <- function(essai1, essai2) {
   return(sd(c(essai1, essai2)))
@@ -183,6 +183,6 @@ data$Lentille_noire[6] <- paste0(data$Lentille_noire[6],letters_valeurs_energeti
 # Afficher les données avec les écarts-types
 data_final <- data[, c("PARAMETRES","Lentille_verte", "Lentille_corail", "Lentille_noire")]
 
-#View(data_final)
+View(data_final)
 # Exporter le tableau des résultats
-write_xlsx(data_final, "resultats_macronutriments.xlsx")
+#write_xlsx(data_final, "resultats_macronutriments.xlsx")
